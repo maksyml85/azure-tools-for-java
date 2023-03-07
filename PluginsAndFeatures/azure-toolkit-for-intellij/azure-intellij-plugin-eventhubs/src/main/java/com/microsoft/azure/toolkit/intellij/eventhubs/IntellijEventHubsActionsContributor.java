@@ -27,6 +27,7 @@ public class IntellijEventHubsActionsContributor implements IActionsContributor 
         registerSendMessageActionHandler(am);
         registerStartListeningActionHandler(am);
         registerStopListeningActionHandler(am);
+        registerCopyConnectionStringActionHandler(am);
         registerGroupCreateNamespaceActionHandler(am);
     }
 
