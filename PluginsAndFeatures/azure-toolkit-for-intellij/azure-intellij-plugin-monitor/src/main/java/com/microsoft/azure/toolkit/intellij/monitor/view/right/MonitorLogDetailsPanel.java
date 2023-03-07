@@ -59,11 +59,12 @@ public class MonitorLogDetailsPanel {
         final Project project = ProjectManager.getInstance().getOpenProjects()[0];
         final DocumentImpl document = new DocumentImpl("", true);
         final EditorTextField result = new EditorTextField(document, project, PlainTextFileType.INSTANCE, true, false);
-        result.addSettingsProvider(editor -> { // add scrolling/line number features/show gutter
+        result.addSettingsProvider(editor -> { // add scrolling/line number features/show gutter/soft wrap
             editor.setHorizontalScrollbarVisible(true);
             editor.setVerticalScrollbarVisible(true);
             editor.getSettings().setLineNumbersShown(true);
             editor.getSettings().setGutterIconsShown(true);
+            editor.getSettings().setUseSoftWraps(true);
         });
         return result;
     }

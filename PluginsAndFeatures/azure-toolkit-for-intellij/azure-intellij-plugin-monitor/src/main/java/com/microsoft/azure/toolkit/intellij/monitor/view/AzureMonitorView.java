@@ -19,6 +19,7 @@ import com.microsoft.azure.toolkit.intellij.monitor.view.right.MonitorTabbedPane
 import com.microsoft.azure.toolkit.lib.Azure;
 import com.microsoft.azure.toolkit.lib.common.bundle.AzureString;
 import com.microsoft.azure.toolkit.lib.common.event.AzureEventBus;
+import com.microsoft.azure.toolkit.lib.common.operation.AzureOperation;
 import com.microsoft.azure.toolkit.lib.common.task.AzureTaskManager;
 import com.microsoft.azure.toolkit.lib.monitor.LogAnalyticsWorkspace;
 import lombok.Getter;
@@ -96,6 +97,7 @@ public class AzureMonitorView {
     private void createUIComponents() {
         this.changeWorkspace = new AnActionLink("Select", new AnAction() {
             @Override
+            @AzureOperation(name = "user/monitor.select_workspace")
             public void actionPerformed(@NotNull AnActionEvent e) {
                 AzureTaskManager.getInstance().runLater(() -> {
                     final WorkspaceSelectionDialog dialog = new WorkspaceSelectionDialog(e.getProject(), selectedWorkspace);
