@@ -73,7 +73,7 @@ public class FunctionDeploymentState extends AzureRunProfileState<FunctionAppBas
         applyResourceConnection();
         final FunctionAppBase<?, ?, ?> target = FunctionAppService.getInstance().createOrUpdateFunctionApp(deployModel.getFunctionAppConfig());
         stagingFolder = FunctionUtils.getTempStagingFolder();
-        prepareStagingFolder(stagingFolder, processHandler, operation);
+        prepareStagingFolder(stagingFolder, operation);
         // deploy function to Azure
         FunctionAppService.getInstance().deployFunctionApp(target, stagingFolder);
         operation.trackProperties(OperationContext.action().getTelemetryProperties());
@@ -92,7 +92,7 @@ public class FunctionDeploymentState extends AzureRunProfileState<FunctionAppBas
     }
 
     @AzureOperation(name = "boundary/function.prepare_staging_folder.folder|app", params = {"stagingFolder.getName()", "this.deployModel.getFunctionAppConfig().getName()"})
-    private void prepareStagingFolder(File stagingFolder, RunProcessHandler processHandler, final @NotNull Operation operation) {
+    private void prepareStagingFolder(File stagingFolder, final @NotNull Operation operation) {
         final Module module = functionDeployConfiguration.getModule();
         if (module == null) {
             throw new AzureToolkitRuntimeException("Cannot find a valid module in function deploy configuration.");
