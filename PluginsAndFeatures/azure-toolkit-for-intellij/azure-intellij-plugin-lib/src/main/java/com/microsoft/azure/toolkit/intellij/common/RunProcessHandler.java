@@ -63,7 +63,7 @@ public class RunProcessHandler extends ProcessHandler implements IProgressIndica
      */
     public void println(String message, Key type) {
         if (isProcessRunning()) {
-            this.notifyTextAvailable(message + "\n", type);
+            this.notifyTextAvailable(message + System.lineSeparator(), type);
         }
     }
 

@@ -161,23 +161,23 @@ public class SpringCloudDeploymentConfigurationState implements RunProfileState 
         @Override
         public boolean show(IAzureMessage raw) {
             if (raw.getType() == IAzureMessage.Type.INFO) {
-                consoleView.print(addLine(raw.getMessage().toString()), ConsoleViewContentType.NORMAL_OUTPUT);
+                println(raw.getMessage().toString(), ConsoleViewContentType.NORMAL_OUTPUT);
                 return true;
             } else if (raw.getType() == IAzureMessage.Type.SUCCESS) {
-                consoleView.print(addLine(raw.getMessage().toString()), ConsoleViewContentType.NORMAL_OUTPUT);
+                println(raw.getMessage().toString(), ConsoleViewContentType.NORMAL_OUTPUT);
             } else if (raw.getType() == IAzureMessage.Type.DEBUG) {
-                consoleView.print(addLine(raw.getMessage().toString()), ConsoleViewContentType.LOG_DEBUG_OUTPUT);
+                println(raw.getMessage().toString(), ConsoleViewContentType.LOG_DEBUG_OUTPUT);
                 return true;
             } else if (raw.getType() == IAzureMessage.Type.WARNING) {
-                consoleView.print(addLine(raw.getMessage().toString()), ConsoleViewContentType.LOG_WARNING_OUTPUT);
+                println(raw.getMessage().toString(), ConsoleViewContentType.LOG_WARNING_OUTPUT);
             } else if (raw.getType() == IAzureMessage.Type.ERROR) {
-                consoleView.print(addLine(raw.getMessage().toString()), ConsoleViewContentType.ERROR_OUTPUT);
+                println(raw.getMessage().toString(), ConsoleViewContentType.ERROR_OUTPUT);
             }
             return super.show(raw);
         }
 
-        private String addLine(String originText) {
-            return originText + "\n";
+        private void println(String originText, ConsoleViewContentType type) {
+            consoleView.print(originText + System.lineSeparator(), type);
         }
     }
 }
