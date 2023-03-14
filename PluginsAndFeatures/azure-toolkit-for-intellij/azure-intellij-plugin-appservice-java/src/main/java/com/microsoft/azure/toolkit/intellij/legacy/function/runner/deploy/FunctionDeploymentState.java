@@ -9,12 +9,18 @@ import com.intellij.openapi.application.ReadAction;
 import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiMethod;
+import com.microsoft.azure.toolkit.ide.appservice.AppServiceActionsContributor;
 import com.microsoft.azure.toolkit.intellij.common.RunProcessHandlerMessenger;
 import com.microsoft.azure.toolkit.intellij.connector.function.FunctionSupported;
 import com.microsoft.azure.toolkit.intellij.legacy.common.AzureRunProfileState;
 import com.microsoft.azure.toolkit.intellij.legacy.function.runner.core.FunctionUtils;
+import com.microsoft.azure.toolkit.lib.appservice.function.FunctionApp;
 import com.microsoft.azure.toolkit.lib.appservice.function.FunctionAppBase;
+import com.microsoft.azure.toolkit.lib.appservice.utils.AppServiceUtils;
+import com.microsoft.azure.toolkit.lib.common.action.AzureActionManager;
 import com.microsoft.azure.toolkit.lib.common.exception.AzureToolkitRuntimeException;
+import com.microsoft.azure.toolkit.lib.common.messager.AzureMessager;
+import com.microsoft.azure.toolkit.lib.common.messager.IAzureMessager;
 import com.microsoft.azure.toolkit.lib.common.operation.AzureOperation;
 import com.microsoft.azure.toolkit.lib.common.operation.OperationContext;
 import com.microsoft.azure.toolkit.lib.legacy.function.FunctionAppService;
@@ -68,14 +74,22 @@ public class FunctionDeploymentState extends AzureRunProfileState<FunctionAppBas
     @Override
     @AzureOperation(name = "internal/function.deploy_app")
     public FunctionAppBase<?, ?, ?> executeSteps(@NotNull RunProcessHandler processHandler, @NotNull Operation operation) {
-        final RunProcessHandlerMessenger messenger = new RunProcessHandlerMessenger(processHandler);
-        OperationContext.current().setMessager(messenger);
+        final IAzureMessager messenger = AzureMessager.getDefaultMessager();
+        OperationContext.current().setMessager(new RunProcessHandlerMessenger(processHandler));
         applyResourceConnection();
         final FunctionAppBase<?, ?, ?> target = FunctionAppService.getInstance().createOrUpdateFunctionApp(deployModel.getFunctionAppConfig());
         stagingFolder = FunctionUtils.getTempStagingFolder();
         prepareStagingFolder(stagingFolder, operation);
         // deploy function to Azure
         FunctionAppService.getInstance().deployFunctionApp(target, stagingFolder);
+        try {
+            if (target instanceof FunctionApp) {
+                AppServiceUtils.listHTTPTriggerUrls((FunctionApp) target);
+            }
+        } catch (final Exception e) {
+            messenger.warning("Deployment succeeded, but failed to list http trigger urls.", null,
+                    AzureActionManager.getInstance().getAction(AppServiceActionsContributor.START_STREAM_LOG).bind(target));
+        }
         operation.trackProperties(OperationContext.action().getTelemetryProperties());
         return target;
     }
