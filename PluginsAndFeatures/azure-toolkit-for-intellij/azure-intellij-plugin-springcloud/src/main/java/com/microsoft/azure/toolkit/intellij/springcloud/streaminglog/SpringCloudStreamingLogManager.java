@@ -43,7 +43,7 @@ public class SpringCloudStreamingLogManager {
             try {
                 consoleView.startLog(() -> {
                     try {
-                        return getLogStream(app, instanceName, 0, 10, 0, true);
+                        return getLogStream(app, instanceName, 300, 500, 1024 * 1024, true);
                     } catch (final IOException | HttpException e) {
                         return null;
                     }

@@ -60,7 +60,6 @@ public class SpringCloudActionsContributor implements IActionsContributor {
 
         new Action<>(STREAM_LOG_APP)
             .visibleWhen(s -> s instanceof SpringCloudApp)
-            .enableWhen(s -> s.getFormalStatus(true).isRunning())
             .withLabel("Start Streaming Logs")
             .withIcon(AzureIcons.Action.LOG.getIconPath())
             .withIdParam(AbstractAzResource::getName)
@@ -68,7 +67,6 @@ public class SpringCloudActionsContributor implements IActionsContributor {
 
         new Action<>(STREAM_LOG)
             .visibleWhen(s -> s instanceof SpringCloudAppInstance)
-            .enableWhen(s -> s.getFormalStatus(true).isRunning())
             .withLabel("Start Streaming Logs")
             .withIcon(AzureIcons.Action.LOG.getIconPath())
             .withIdParam(AbstractAzResource::getName)

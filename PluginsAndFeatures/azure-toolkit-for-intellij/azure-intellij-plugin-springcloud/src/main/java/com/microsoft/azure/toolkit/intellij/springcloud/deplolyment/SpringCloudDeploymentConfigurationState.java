@@ -22,6 +22,7 @@ import com.microsoft.azure.toolkit.intellij.common.messager.IntellijAzureMessage
 import com.microsoft.azure.toolkit.lib.Azure;
 import com.microsoft.azure.toolkit.lib.common.action.Action;
 import com.microsoft.azure.toolkit.lib.common.action.AzureActionManager;
+import com.microsoft.azure.toolkit.lib.common.bundle.AzureString;
 import com.microsoft.azure.toolkit.lib.common.exception.AzureToolkitRuntimeException;
 import com.microsoft.azure.toolkit.lib.common.messager.AzureMessager;
 import com.microsoft.azure.toolkit.lib.common.messager.IAzureMessage;
@@ -80,6 +81,10 @@ public class SpringCloudDeploymentConfigurationState implements RunProfileState 
                     final SpringCloudApp app = springCloudDeployment.getParent();
                     if (!springCloudDeployment.waitUntilReady(GET_STATUS_TIMEOUT)) {
                         messager.warning(GET_DEPLOYMENT_STATUS_TIMEOUT, NOTIFICATION_TITLE, getOpenStreamingLogAction(springCloudDeployment));
+                    } else {
+                        messager.success(AzureString.format("App({0}) started successfully.", app.getName()), NOTIFICATION_TITLE,
+                                AzureActionManager.getInstance().getAction(SpringCloudActionsContributor.OPEN_PUBLIC_URL).bind(app),
+                                AzureActionManager.getInstance().getAction(SpringCloudActionsContributor.OPEN_TEST_URL).bind(app));
                     }
                 });
             } catch (final Exception e) {
