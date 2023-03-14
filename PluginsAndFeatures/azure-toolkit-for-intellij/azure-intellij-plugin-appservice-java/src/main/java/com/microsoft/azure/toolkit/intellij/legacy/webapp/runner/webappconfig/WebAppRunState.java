@@ -8,6 +8,7 @@ package com.microsoft.azure.toolkit.intellij.legacy.webapp.runner.webappconfig;
 import com.intellij.execution.process.ProcessOutputTypes;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.PathUtil;
+import com.microsoft.azure.toolkit.ide.appservice.AppServiceActionsContributor;
 import com.microsoft.azure.toolkit.intellij.common.AzureArtifact;
 import com.microsoft.azure.toolkit.intellij.common.AzureArtifactManager;
 import com.microsoft.azure.toolkit.intellij.common.RunProcessHandler;
@@ -18,6 +19,7 @@ import com.microsoft.azure.toolkit.lib.Azure;
 import com.microsoft.azure.toolkit.lib.appservice.AzureAppService;
 import com.microsoft.azure.toolkit.lib.appservice.model.AppServiceFile;
 import com.microsoft.azure.toolkit.lib.appservice.model.DeployType;
+import com.microsoft.azure.toolkit.lib.appservice.model.Runtime;
 import com.microsoft.azure.toolkit.lib.appservice.model.WebContainer;
 import com.microsoft.azure.toolkit.lib.appservice.webapp.AzureWebApp;
 import com.microsoft.azure.toolkit.lib.appservice.webapp.WebApp;
@@ -26,11 +28,14 @@ import com.microsoft.azure.toolkit.lib.appservice.webapp.WebAppDeploymentSlot;
 import com.microsoft.azure.toolkit.lib.appservice.webapp.WebAppDeploymentSlotDraft;
 import com.microsoft.azure.toolkit.lib.appservice.webapp.WebAppDraft;
 import com.microsoft.azure.toolkit.lib.appservice.webapp.WebAppModule;
+import com.microsoft.azure.toolkit.lib.common.action.AzureActionManager;
 import com.microsoft.azure.toolkit.lib.common.bundle.AzureString;
 import com.microsoft.azure.toolkit.lib.common.exception.AzureToolkitRuntimeException;
 import com.microsoft.azure.toolkit.lib.common.messager.AzureMessager;
+import com.microsoft.azure.toolkit.lib.common.messager.IAzureMessager;
 import com.microsoft.azure.toolkit.lib.common.operation.AzureOperation;
 import com.microsoft.azure.toolkit.lib.common.operation.OperationContext;
+import com.microsoft.azure.toolkit.lib.common.task.AzureTaskManager;
 import com.microsoft.azuretools.core.mvp.model.webapp.AzureWebAppMvpModel;
 import com.microsoft.azuretools.telemetry.TelemetryConstants;
 import com.microsoft.azuretools.telemetrywrapper.Operation;
@@ -71,6 +76,11 @@ public class WebAppRunState extends AzureRunProfileState<WebAppBase<?, ?, ?>> {
     private final IntelliJWebAppSettingModel webAppSettingModel;
 
     private final Map<String, String> appSettingsForResourceConnection = new HashMap<>();
+    private static final String GET_DEPLOYMENT_STATUS_TIMEOUT = "Resource deployed but the deployment is still in process in Azure, " +
+            "you can start streaming log to see more details.";
+    private static final String NOTIFICATION_TITLE = "Get deployment status";
+    private static final int DEFAULT_DEPLOYMENT_STATUS_REFRESH_INTERVAL = 10;
+    private static final int DEFAULT_DEPLOYMENT_STATUS_MAX_REFRESH_TIMES = 6;
 
     /**
      * Place to execute the Web App deployment task.
@@ -85,6 +95,7 @@ public class WebAppRunState extends AzureRunProfileState<WebAppBase<?, ?, ?>> {
     @Override
     @AzureOperation(name = "user/webapp.deploy_artifact.app", params = {"this.webAppConfiguration.getWebAppName()"})
     public WebAppBase<?, ?, ?> executeSteps(@NotNull RunProcessHandler processHandler, @NotNull Operation operation) throws Exception {
+        final IAzureMessager messager = AzureMessager.getMessager();
         OperationContext.current().setMessager(getProcessHandlerMessenger());
         artifact = new File(getTargetPath());
         if (!artifact.exists()) {
@@ -94,6 +105,23 @@ public class WebAppRunState extends AzureRunProfileState<WebAppBase<?, ?, ?>> {
         applyResourceConnection(deployTarget, processHandler);
         updateApplicationSettings(deployTarget, processHandler);
         AzureWebAppMvpModel.getInstance().deployArtifactsToWebApp(deployTarget, artifact, webAppSettingModel.isDeployToRoot(), processHandler);
+        AzureTaskManager.getInstance().runInBackground("get deployment status", () -> {
+            if (deployTarget.getFormalStatus().isStopped()) {
+                messager.info("Skip waiting deployment status for stopped web app.");
+                return;
+            }
+            if (Optional.ofNullable(deployTarget.getRuntime()).map(Runtime::isWindows).orElse(false)) {
+                messager.info("`waitDeploymentComplete` is not supported in Windows runtime, skip waiting for deployment status.");
+                return;
+            }
+            if (!deployTarget.waitUntilDeploymentReady(DEFAULT_DEPLOYMENT_STATUS_REFRESH_INTERVAL, DEFAULT_DEPLOYMENT_STATUS_MAX_REFRESH_TIMES)) {
+                messager.warning(GET_DEPLOYMENT_STATUS_TIMEOUT, NOTIFICATION_TITLE,
+                        AzureActionManager.getInstance().getAction(AppServiceActionsContributor.START_STREAM_LOG).bind(deployTarget));
+            } else {
+                messager.success(AzureString.format("App({0}) started successfully.", deployTarget.getName()), NOTIFICATION_TITLE,
+                        AzureActionManager.getInstance().getAction(AppServiceActionsContributor.OPEN_IN_BROWSER).bind(deployTarget));
+            }
+        });
         return deployTarget;
     }
 

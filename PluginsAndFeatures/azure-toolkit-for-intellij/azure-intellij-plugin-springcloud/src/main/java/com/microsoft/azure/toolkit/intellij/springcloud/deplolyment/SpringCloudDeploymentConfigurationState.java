@@ -53,7 +53,7 @@ public class SpringCloudDeploymentConfigurationState implements RunProfileState 
     private static final int GET_STATUS_TIMEOUT = 180;
     private static final String UPDATE_APP_WARNING = "It may take some moments for the configuration to be applied at server side!";
     private static final String GET_DEPLOYMENT_STATUS_TIMEOUT = "Deployment succeeded but the app is still starting, " +
-        "you can check the app status from Azure Portal.";
+        "you can start streaming log to see more details.";
     private static final String NOTIFICATION_TITLE = "Get deployment status";
 
     private final SpringCloudDeploymentConfiguration config;
