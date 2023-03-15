@@ -1,0 +1,18 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_273_1195" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="15" height="15">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15 0H0V15H8.75777C8.27914 14.285 8 13.4251 8 12.5C8 10.0147 10.0147 8 12.5 8C13.4251 8 14.285 8.27914 15 8.75777V0Z" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_273_1195)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M15 2L15 1L1 0.999999L1 2L1 3L1 5L2 5L3 5L3 3L13 3L13 3.5L15 3.5L15 3L15 2ZM13 12.5L13 13L15 13L15 12.5L13 12.5Z" fill="#9AA7B0" fill-opacity="0.8"/>
+<path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M15 9.5H12V11.5H15V9.5ZM13.5 10.5L12.5 10V10.5L13.5 11L14.5 10.5V10L13.5 10.5Z" fill="#40B6E0"/>
+<path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M7 6H1V10H4V9L2 8V7L4 8L6 7V8H7V6Z" fill="#40B6E0"/>
+<path opacity="0.7" fill-rule="evenodd" clip-rule="evenodd" d="M15 4.5H12V6.5H15V4.5ZM13.5 5.5L12.5 5V5.5L13.5 6L14.5 5.5V5L13.5 5.5Z" fill="#40B6E0"/>
+<rect opacity="0.8" x="8" y="6.5" width="1" height="1" fill="#9AA7B0"/>
+<rect opacity="0.8" x="10" y="5.5" width="1" height="1" fill="#9AA7B0"/>
+<rect opacity="0.8" x="8" y="8.5" width="1" height="1" fill="#9AA7B0"/>
+<rect opacity="0.8" x="10" y="9.5" width="1" height="1" fill="#9AA7B0"/>
+</g>
+<circle cx="12.5" cy="12.5" r="3" stroke="#E05555"/>
+<rect x="10.3787" y="11.0858" width="1" height="5" transform="rotate(-45 10.3787 11.0858)" fill="#E05555"/>
+<path opacity="0.8" fill-rule="evenodd" clip-rule="evenodd" d="M5 12.8V15L8 12L5 9V11.2H0V12.8H5Z" fill="#9AA7B0"/>
+</svg>

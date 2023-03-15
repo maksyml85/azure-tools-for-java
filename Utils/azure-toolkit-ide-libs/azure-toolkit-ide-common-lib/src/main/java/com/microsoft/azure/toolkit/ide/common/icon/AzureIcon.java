@@ -45,6 +45,7 @@ public class AzureIcon {
         public static final Modifier UNKNOWN = new AzureIcon.Modifier("unknown", ModifierLocation.BOTTOM_RIGHT);
         public static final Modifier REFRESHING = new AzureIcon.Modifier("refreshing", ModifierLocation.BOTTOM_RIGHT);
         public static final Modifier SEND_DISABLED = new AzureIcon.Modifier("senddisabled", ModifierLocation.BOTTOM_RIGHT);
+        public static final Modifier RECEIVED_DISABLED = new AzureIcon.Modifier("receivedisabled", ModifierLocation.BOTTOM_RIGHT);
 
         private final String iconPath;
         private final ModifierLocation location;
