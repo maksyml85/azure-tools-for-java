@@ -49,6 +49,7 @@
         <module>azure-toolkit-ide-cosmos-lib</module>
         <module>azure-toolkit-ide-containerapps-lib</module>
         <module>azure-toolkit-ide-eventhubs-lib</module>
+        <module>azure-toolkit-ide-servicebus-lib</module>
     </modules>
 
     <properties>
@@ -138,6 +139,11 @@
             <dependency>
                 <groupId>com.microsoft.azure</groupId>
                 <artifactId>azure-toolkit-applicationinsights-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-toolkit-ide-servicebus-lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

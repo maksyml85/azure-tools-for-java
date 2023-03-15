@@ -217,4 +217,8 @@ public final class AzureIcons {
     public static final class EventHubs {
         public static final AzureIcon MODULE = AzureIcon.builder().iconPath("/icons/Microsoft.EventHub/default.svg").build();
     }
+
+    public static final class ServiceBus {
+        public static final AzureIcon MODULE = AzureIcon.builder().iconPath("/icons/Microsoft.EventHub/default.svg").build();
+    }
 }

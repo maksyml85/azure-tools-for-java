@@ -63,7 +63,6 @@ public class EventHubsNodeProvider implements IExplorerNodeProvider {
                     .view(new AzureResourceLabelView<>(eventHubsInstance, EventHubsInstance::getStatus, EVENT_HUBS_ICON_PROVIDER))
                     .actions(EventHubsActionsContributor.INSTANCE_ACTIONS);
         }
-        //*huaidong0115
         return null;
     }
 

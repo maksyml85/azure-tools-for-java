@@ -202,6 +202,7 @@ dependencies {
     implementation project(':azure-intellij-plugin-monitor')
     implementation project(':azure-intellij-plugin-hdinsight')
     implementation project(':azure-intellij-plugin-eventhubs')
+    implementation project(':azure-intellij-plugin-servicebus')
     implementation 'com.microsoft.hdinsight:azure-toolkit-ide-hdinsight-spark-lib'
     implementation 'com.microsoft.azure:azure-toolkit-ide-appservice-lib'
     implementation 'com.microsoft.azure:azure-toolkit-applicationinsights-lib'
