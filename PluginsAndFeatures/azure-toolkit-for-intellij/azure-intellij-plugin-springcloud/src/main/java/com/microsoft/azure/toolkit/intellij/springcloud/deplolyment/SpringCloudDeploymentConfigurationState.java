@@ -199,17 +199,17 @@ public class SpringCloudDeploymentConfigurationState implements RunProfileState 
         @Override
         public boolean show(IAzureMessage raw) {
             if (raw.getType() == IAzureMessage.Type.INFO) {
-                println(raw.getMessage().toString(), ConsoleViewContentType.NORMAL_OUTPUT);
+                println(raw.getContent(), ConsoleViewContentType.NORMAL_OUTPUT);
                 return true;
             } else if (raw.getType() == IAzureMessage.Type.SUCCESS) {
-                println(raw.getMessage().toString(), ConsoleViewContentType.NORMAL_OUTPUT);
+                println(raw.getContent(), ConsoleViewContentType.NORMAL_OUTPUT);
             } else if (raw.getType() == IAzureMessage.Type.DEBUG) {
-                println(raw.getMessage().toString(), ConsoleViewContentType.LOG_DEBUG_OUTPUT);
+                println(raw.getContent(), ConsoleViewContentType.LOG_DEBUG_OUTPUT);
                 return true;
             } else if (raw.getType() == IAzureMessage.Type.WARNING) {
-                println(raw.getMessage().toString(), ConsoleViewContentType.LOG_WARNING_OUTPUT);
+                println(raw.getContent(), ConsoleViewContentType.LOG_WARNING_OUTPUT);
             } else if (raw.getType() == IAzureMessage.Type.ERROR) {
-                println(raw.getMessage().toString(), ConsoleViewContentType.ERROR_OUTPUT);
+                println(raw.getContent(), ConsoleViewContentType.ERROR_OUTPUT);
             }
             return super.show(raw);
         }
