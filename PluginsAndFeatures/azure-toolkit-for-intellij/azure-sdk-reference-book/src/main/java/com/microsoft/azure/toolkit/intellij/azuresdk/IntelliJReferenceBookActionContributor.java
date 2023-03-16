@@ -35,9 +35,11 @@ public class IntelliJReferenceBookActionContributor implements IActionsContribut
             put("Microsoft.ContainerRegistry", "Container Registry");
             put("Microsoft.ContainerRegistry/registries", "Container Registry");
             put("Microsoft.DBforMySQL", "Database for MySQL");
+            put("Microsoft.DBforMySQL/servers", "Database for MySQL");
             put("Microsoft.DBforMySQL/flexibleServers", "Database for MySQL");
             put("Microsoft.DBforPostgreSQL", "Database for PostgreSQL");
             put("Microsoft.DBforPostgreSQL/servers", "Database for PostgreSQL");
+            put("Microsoft.DBforPostgreSQL/flexibleServers", "Database for PostgreSQL");
             put("Microsoft.Cache", "Redis");
             put("Microsoft.Cache/Redis", "Redis");
             put("Microsoft.AppPlatform", "Spring Cloud");

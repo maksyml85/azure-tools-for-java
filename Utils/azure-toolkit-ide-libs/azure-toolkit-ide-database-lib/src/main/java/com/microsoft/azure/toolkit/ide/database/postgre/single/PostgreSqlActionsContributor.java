@@ -13,17 +13,15 @@ import com.microsoft.azure.toolkit.lib.common.action.ActionGroup;
 import com.microsoft.azure.toolkit.lib.common.action.AzureActionManager;
 import com.microsoft.azure.toolkit.lib.common.model.AzResource;
 import com.microsoft.azure.toolkit.lib.postgre.single.PostgreSqlServer;
-import com.microsoft.azure.toolkit.lib.resource.ResourceGroup;
 
 public class PostgreSqlActionsContributor implements IActionsContributor {
     public static final int INITIALIZE_ORDER = ResourceCommonActionsContributor.INITIALIZE_ORDER + 1;
 
-    public static final String SERVICE_ACTIONS = "actions.postgre.service";
-    public static final String SERVER_ACTIONS = "actions.postgre.server";
+    public static final String SERVICE_ACTIONS = "actions.postgre_single.service";
+    public static final String SERVER_ACTIONS = "actions.postgre_single.server";
 
     private static final String NAME_PREFIX = "PostgreSQL Server - %s";
     public static final Action.Id<AzResource> OPEN_DATABASE_TOOL = Action.Id.of("user/postgre.open_database_tools.server");
-    public static final Action.Id<ResourceGroup> GROUP_CREATE_POSTGRE = Action.Id.of("user/postgre.create_server.group");
 
     @Override
     public void registerActions(AzureActionManager am) {
