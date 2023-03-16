@@ -54,6 +54,8 @@ public class IntelliJReferenceBookActionContributor implements IActionsContribut
             put("Microsoft.HDInsight/clusters", "HDInsight");
             put("Microsoft.EventHub", "Event Hubs");
             put("Microsoft.EventHub/namespaces", "Event Hubs");
+            put("Microsoft.ServiceBus", "Service Bus");
+            put("Microsoft.ServiceBus/namespaces", "Service Bus");
         }
     };
 
