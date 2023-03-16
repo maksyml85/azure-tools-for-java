@@ -20,6 +20,7 @@ public class ServiceBusActionsContributor implements IActionsContributor {
     public static final String NAMESPACE_ACTIONS = "actions.servicebus.namaspace";
     public static final String QUEUE_ACTIONS = "actions.servicebus.queue";
     public static final String TOPIC_ACTIONS = "actions.servicebus.topic";
+    public static final String MODULE_ACTIONS = "actions.servicebus.module";
     public static final String SET_STATUS_ACTIONS = "actions.servicebus.set_status.group";
     public static final Action.Id<ServiceBusInstance> ACTIVE_INSTANCE = Action.Id.of("user/servicebus.active_instance.instance");
     public static final Action.Id<ServiceBusInstance> DISABLE_INSTANCE = Action.Id.of("user/servicebus.disable_instance.instance");
@@ -88,6 +89,11 @@ public class ServiceBusActionsContributor implements IActionsContributor {
                 "---",
                 ResourceCommonActionsContributor.DELETE);
         am.registerGroup(NAMESPACE_ACTIONS, namespaceGroup);
+
+        final ActionGroup moduleGroup = new ActionGroup(
+                ResourceCommonActionsContributor.REFRESH
+        );
+        am.registerGroup(MODULE_ACTIONS, moduleGroup);
 
         final ActionGroup queueGroup = new ActionGroup(
                 ResourceCommonActionsContributor.REFRESH,

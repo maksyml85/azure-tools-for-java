@@ -55,6 +55,7 @@ public class ServiceBusNodeProvider implements IExplorerNodeProvider {
                     .addInlineAction(ResourceCommonActionsContributor.PIN)
                     .actions(ServiceBusActionsContributor.NAMESPACE_ACTIONS)
                     .addChildren(ServiceBusNamespace::getSubModules, (module, parentNode) -> new Node<>(module)
+                            .actions(ServiceBusActionsContributor.MODULE_ACTIONS)
                             .view(new AzureModuleLabelView<>(module, module.getResourceTypeName().replace("Service Bus ", "") + "s"))
                             .addChildren(AbstractAzResourceModule::list, (d, pn) -> this.createNode(d, pn, manager)));
         } else if (data instanceof ServiceBusQueue) {
