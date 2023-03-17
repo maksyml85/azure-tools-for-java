@@ -52,9 +52,10 @@ public class SpringCloudDeploymentConfigurationState implements RunProfileState 
     private static final int GET_URL_TIMEOUT = 60;
     private static final int GET_STATUS_TIMEOUT = 180;
     private static final String UPDATE_APP_WARNING = "It may take some moments for the configuration to be applied at server side!";
-    private static final String GET_DEPLOYMENT_STATUS_TIMEOUT = "Deployment succeeded but the app is still starting, " +
-        "you can start streaming log to see more details.";
-    private static final String NOTIFICATION_TITLE = "Get deployment status";
+    private static final String GET_DEPLOYMENT_STATUS_TIMEOUT = "The app is still starting, " +
+            "you could start streaming log to check if something wrong in server side.";
+    private static final String NOTIFICATION_TITLE = "Querying app status";
+    private static final String DEPLOYMENT_SUCCEED = "Deployment succeed but the app is still starting at server side.";
 
     private final SpringCloudDeploymentConfiguration config;
     private final Project project;
@@ -76,13 +77,13 @@ public class SpringCloudDeploymentConfigurationState implements RunProfileState 
         final Runnable execute = () -> {
             try {
                 final SpringCloudDeployment springCloudDeployment = this.execute(messager);
-                messager.success("Deploy succeed!");
+                messager.success("");
                 AzureTaskManager.getInstance().runInBackground("get deployment status", () -> {
                     final SpringCloudApp app = springCloudDeployment.getParent();
                     if (!springCloudDeployment.waitUntilReady(GET_STATUS_TIMEOUT)) {
                         messager.warning(GET_DEPLOYMENT_STATUS_TIMEOUT, NOTIFICATION_TITLE, getOpenStreamingLogAction(springCloudDeployment));
                     } else {
-                        messager.success(AzureString.format("App({0}) started successfully.", app.getName()), NOTIFICATION_TITLE,
+                        messager.success(AzureString.format("App({0}) started successfully", app.getName()), NOTIFICATION_TITLE,
                                 AzureActionManager.getInstance().getAction(SpringCloudActionsContributor.OPEN_PUBLIC_URL).bind(app),
                                 AzureActionManager.getInstance().getAction(SpringCloudActionsContributor.OPEN_TEST_URL).bind(app));
                     }
